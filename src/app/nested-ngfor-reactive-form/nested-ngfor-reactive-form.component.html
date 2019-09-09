@@ -1,0 +1,89 @@
+<main class="container">
+
+  <br>
+  <div class="row">
+    <div class="col">
+      <button type="button" class="btn btn-outline-primary float-right" (click)="addQuestionByIndex(0)">
+        <i class="fas fa-plus"></i>
+        add Question
+      </button>
+    </div>
+  </div>
+  <br>
+  <form [formGroup]="qaForm">
+    <div formArrayName="qa" *ngFor="let item of qaFormArray.controls;let qIndex= index;">
+      <div [formGroupName]="qIndex" class="card">
+
+        <div class="card-header bg-info text-white h5">
+          Q{{(qIndex+1) + '. ' + item.get('question').value.questionContent}}
+        </div>
+        <div class="card-body">
+
+          <div formGroupName="question" class="row">
+            <div class="col-1">
+              <div class="row">
+                <div class="col-10 offset-1 col-form-label">
+                  <label for="sysCaseId">Question</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-7">
+              <div class="row input-group">
+                <textarea class="form-control" rows=2 formControlName="questionContent"></textarea>
+              </div>
+            </div>
+
+            <div class="col-2 float-right">
+              <div class="btn-toolbar">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-outline-danger" (click)="removeQuestionByIndex(qIndex)">
+                    <i class="fas fa-minus-circle"></i> delete Question
+                  </button>
+                  <button type="button" class="btn btn-outline-primary" (click)="addQuestionByIndex( (qIndex+1) )">
+                    <i class="fas fa-plus"></i>
+                    add Question
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <hr>
+          <div class="row">
+            <div class="col">
+              <button type="button" class="btn btn-outline-primary float-right" (click)="addAns(qIndex)">
+                <i class="fas fa-plus"></i>
+                add Answer
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-2"><label>answer area:</label></div>
+          </div>
+          <div class="wrapper">
+            <div class="container border border-info rounded">
+              <div formArrayName="answers" *ngFor="let ans of qaFormArray.controls[qIndex].get('answers').controls;let aIndex= index;">
+                <div [formGroupName]="aIndex">
+
+                  <div class="form-group row">
+                    <label for="ans" class="col-1 col-form-label">{{'A' + (aIndex + 1) + '. '}}</label>
+                    <div class="col-10">
+                      <input type="text" class="form-control" formControlName="answerContent">
+                    </div>
+                    <div class="col-1">
+                      <button type="button" class="btn btn-outline-danger" (click)="removeAns(qIndex, aIndex)">
+                        <i class="fas fa-minus-circle"></i> delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</main>
